@@ -1,0 +1,102 @@
+/* Streak components: cardboard card · one big always-on blue-flame · day circles · month tiles.
+   All three top-row cards (streak / activity / study-time) now share one texture and palette —
+   the same warm e-ink "cardboard" surface theme.css defines for the dial panel. */
+
+/* ── streak card: same cardboard surface as the dial panel, just its own class so the
+   flame layer and count can be positioned inside it ── */
+.nebula {
+  --fw: 80px; --fh: 124px;            /* one sprite frame, at 1x */
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  background-color: var(--board);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='d' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.4' numOctaves='1' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.2  0 0 0 0 0.2  0 0 0 0 0.19  0 0 0 -10 4.4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23d)' opacity='0.22'/%3E%3C/svg%3E");
+  border: 1px solid #bdbab0;
+  border-radius: var(--r-panel);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(40, 38, 34, 0.08), 0 8px 16px -14px rgba(40, 36, 30, 0.5);
+}
+html[data-theme="dark"] .nebula { border-color: #454540; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.3), 0 8px 16px -12px rgba(0, 0, 0, 0.7); }
+.nebula-veil { display: none; }      /* the old dark smoke veil; the card is plain cardboard now */
+
+/* ── flame layer: one big flame, always animating, regardless of the streak count or
+   whether today's goal is met — the fire never goes out or freezes. ── */
+.flames { position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none; display: flex; align-items: flex-end; justify-content: center; }
+.flame {
+  --s: 1;
+  width: calc(var(--fw) * var(--s)); height: calc(var(--fh) * var(--s));
+  margin-bottom: var(--base, 0);
+  background: url('../assets/flame-loop.png') 0 0 / calc(var(--fw) * var(--s) * 8) 100% no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(20, 30, 40, 0.28));
+  animation: flame-play 0.96s steps(8, jump-none) infinite alternate;
+}
+@keyframes flame-play {
+  from { background-position: 0 0; }
+  to   { background-position: calc(var(--fw) * var(--s) * -7) 0; }
+}
+
+/* ── streak count: no plate, sits right at the flame's core (its brightest point) ── */
+.streak-badge { position: relative; height: var(--badge-h, 190px); }
+.streak-pill {
+  position: absolute; left: 50%; bottom: var(--num-base, 34px); transform: translateX(-50%);
+  display: flex; align-items: center; justify-content: center; pointer-events: none;
+}
+.streak-num {
+  font: 700 46px/1 var(--mono); color: #ffe9b8; letter-spacing: -0.02em;
+  text-shadow: 0 0 3px #7a3c00, 0 0 10px rgba(255, 140, 30, 0.85), 0 0 22px rgba(255, 106, 26, 0.6), 0 2px 2px rgba(40, 18, 0, 0.55);
+}
+
+/* ── week circles ── */
+.day-dots { display: flex; justify-content: center; gap: 9px; margin-top: 10px; }
+.day-dot { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.day-dot i {
+  position: relative; width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--line); background: transparent;
+  display: flex; align-items: center; justify-content: center; color: transparent;
+}
+.day-dot.on i { color: #fff; border-color: var(--accent); background: var(--accent); }
+.day-dot.part i { border-color: var(--accent); background: linear-gradient(to top, var(--accent) var(--fill, 30%), transparent var(--fill, 30%)); }
+.day-dot.today i { outline: 1.5px solid var(--ember); outline-offset: 2px; }
+.day-dot span { font: 400 11px var(--mono); color: var(--ink-faint); }
+
+/* ── month heatmap tiles: same cardboard surface, cells in the app's own accent colour ── */
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.tile {
+  --gap: 2px;
+  border-radius: 10px; padding: 9px 9px 7px;
+  background-color: var(--board);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='d' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.4' numOctaves='1' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.2  0 0 0 0 0.2  0 0 0 0 0.19  0 0 0 -10 4.4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23d)' opacity='0.22'/%3E%3C/svg%3E");
+  border: 1px solid #bdbab0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(40, 38, 34, 0.08), 0 6px 12px -10px rgba(40, 36, 30, 0.5);
+}
+html[data-theme="dark"] .tile { border-color: #454540; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.3), 0 6px 12px -8px rgba(0, 0, 0, 0.7); }
+.tile-grid { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(7, auto); grid-auto-flow: column; gap: var(--gap); }
+.tile-grid b {
+  aspect-ratio: 1; border-radius: 2px; display: block;
+  background: var(--paper-deep); box-shadow: inset 0 1px 2px rgba(40, 36, 30, 0.12);
+}
+.tile-grid b.blank { background: transparent; box-shadow: none; }
+.tile-grid b.future { background: transparent; box-shadow: inset 0 0 0 1px var(--line); }
+.tile-grid b.l1 { background: color-mix(in srgb, var(--accent) 30%, var(--paper-deep)); box-shadow: none; }
+.tile-grid b.l2 { background: color-mix(in srgb, var(--accent) 58%, var(--paper-deep)); box-shadow: none; }
+.tile-grid b.l3 { background: var(--accent); box-shadow: none; }
+.tile-grid b.l4 { background: var(--accent-2); box-shadow: 0 0 4px color-mix(in srgb, var(--accent-2) 65%, transparent); }
+.tile-grid b.today { outline: 1.5px solid var(--ember); outline-offset: 1px; }
+.tile-label { margin-top: 6px; text-align: center; font: 500 13.5px/1.1 var(--serif); color: var(--ink-soft); letter-spacing: 0.02em; }
+.tile-label small { display: block; margin-top: 2px; font: 400 10.5px var(--mono); color: var(--ink-faint); letter-spacing: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flame { animation: none; }
+}
+
+/* ── hover tooltip on heatmap days and week circles (unchanged: a dark popover reads fine over any card) ── */
+.heat-tip {
+  position: fixed; z-index: 1000; pointer-events: none; opacity: 0; transition: opacity 0.1s ease;
+  display: flex; flex-direction: column; gap: 1px; padding: 7px 11px; border-radius: 9px;
+  background: var(--tip-bg, #292524); color: var(--tip-ink, #f1efe9); font: 400 12px/1.35 var(--mono); white-space: nowrap;
+  box-shadow: 0 6px 14px -4px rgba(0, 0, 0, 0.45);
+}
+.heat-tip.on { opacity: 1; }
+.heat-tip b { font: 600 13.5px var(--serif); letter-spacing: 0.01em; margin-bottom: 2px; }
+.heat-tip .tip-time { color: #d97b1e; font-weight: 700; }
+.heat-tip .tip-met { color: #3f6b4a; }

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Udemy Planly",
+  "version": "1.3.8",
+  "description": "A study planner for your Udemy courses: fills your daily goal with the next lectures and coding exercises in order, no AI. Paper-and-cardboard look, blue-flame streak, Excel backup.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.udemy.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.udemy.com/course/*/learn/*"],
+      "js": ["content-udemy.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Udemy Planly"
+  },
+  "options_page": "options/options.html"
+}

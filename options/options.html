@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <script src="../shared/theme-init.js"></script>
+  <title>Udemy Planly — Settings</title>
+  <link rel="stylesheet" href="../shared/theme.css" />
+  <style>
+    body { padding: 40px 24px 70px; }
+    .wrap { max-width: 580px; margin: 0 auto; position: relative; z-index: 1; }
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+    .brand-mark { width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #a5f3fc, #0e7490 60%, #083d4f); box-shadow: 0 2px 0 rgba(0, 40, 60, 0.35), 0 0 10px rgba(34, 211, 238, 0.45); }
+    .brand-text { font: 600 26px/1 var(--serif); }
+    .panel { padding: 8px 22px 22px; margin-bottom: 16px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 2px; border-bottom: 1px dashed var(--line); }
+    .row:last-of-type { border-bottom: none; }
+    .row .name { font-weight: 600; font-size: 16px; }
+    .row .desc { color: var(--ink-faint); font-size: 14px; margin-top: 2px; line-height: 1.35; }
+    label.field-label { display: block; margin: 16px 0 6px; color: var(--ink-soft); font-weight: 600; font-size: 15px; }
+    .mins { display: flex; align-items: center; gap: 8px; flex: none; }
+    .mins .field { width: 80px; text-align: center; }
+    p.hint { color: var(--ink-faint); font-size: 14px; line-height: 1.5; margin: 12px 0 0; }
+    a { color: var(--accent); }
+    html[data-theme="dark"] .panel { background: var(--paper-hi); }
+    #status { margin-top: 12px; min-height: 22px; color: var(--success); font-weight: 600; }
+    #saveBtn { margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand"><span class="brand-mark"></span><span class="brand-text">Planly settings</span></div>
+
+    <div class="panel">
+      <div class="row">
+        <div><div class="name">Daily goal</div><div class="desc">Colours the activity heatmap and today's stat — darker means more time studied. Your streak doesn't use this: it counts a day once you finish everything in that day's "Plan my session".</div></div>
+        <div class="mins"><input id="dailyGoal" class="field mono" type="number" min="1" max="600" step="5" /><span class="muted">min</span></div>
+      </div>
+      <div class="row">
+        <div><div class="name">A new day starts at</div><div class="desc">Study after midnight still counts for the day before, until this hour.</div></div>
+        <div class="mins"><select id="dayStart" class="field" style="width:120px">
+          <option value="0">Midnight</option><option value="3">3 AM</option><option value="4">4 AM</option><option value="5">5 AM</option><option value="6">6 AM</option>
+        </select></div>
+      </div>
+      <div class="row">
+        <div><div class="name">Coding exercises / quizzes</div><div class="desc">Udemy doesn't show a length for these, so Planly counts each one as a fixed 10 minutes. Lectures always use the real length Udemy lists.</div></div>
+        <span class="mono muted">10 min (fixed)</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="row">
+        <div><div class="name">Dark e-ink theme</div><div class="desc">A dark version of the page. Also switchable from the popup and dashboard.</div></div>
+        <div id="darkTheme"></div>
+      </div>
+      <div class="row">
+        <div><div class="name">Sound effects</div><div class="desc">Dial ticks, switch clicks and chimes.</div></div>
+        <div id="sound"></div>
+      </div>
+    </div>
+
+    <p class="hint" style="margin: -8px 2px 16px;">Planning has no AI in it: it always takes the next lecture or coding exercise in the course, in order, stopping the moment the next one would go over your time.</p>
+
+    <button id="saveBtn" class="btn btn-primary">Save settings</button>
+    <div id="status"></div>
+  </div>
+
+  <script src="../shared/sound.js"></script>
+  <script src="../shared/util.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

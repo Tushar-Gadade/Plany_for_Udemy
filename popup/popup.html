@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <script src="../shared/theme-init.js"></script>
+  <title>Udemy Planly</title>
+  <link rel="stylesheet" href="../shared/theme.css" />
+  <link rel="stylesheet" href="../shared/streak.css" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="planlyRing" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0e7490" /><stop offset="100%" stop-color="#22d3ee" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span><span class="brand-text">Planly</span></div>
+      <div class="topbar-actions">
+        <button id="themeBtn" class="btn-icon" title="Switch light / dark" aria-label="Switch light or dark theme"></button>
+        <button id="syncBtn" class="btn-icon" title="Sync all modules from your open Udemy tab" aria-label="Sync all modules"></button>
+        <button id="expandBtn" class="btn-icon" title="Open full view" aria-label="Open full view"></button>
+        <button id="optionsBtn" class="btn-icon" title="Settings" aria-label="Settings"></button>
+      </div>
+    </header>
+
+    <div id="noCourses" class="empty-state hidden">
+      <div class="empty-icon" id="emptyIcon"></div>
+      <p class="empty-title">No course yet</p>
+      <p class="muted">Open a course in the Udemy player and leave the tab open for a few seconds. Planly reads the curriculum from the sidebar.</p>
+    </div>
+
+    <div id="main" class="hidden">
+      <select id="courseSelect" class="field" aria-label="Course"></select>
+      <div class="scan-row">
+        <span id="scanText" class="faint"></span>
+        <span id="pctText" class="mono"></span>
+      </div>
+      <div class="bar"><i id="progFill"></i></div>
+      <div id="scanNote" class="scan-note hidden"></div>
+
+      <div class="top-grid">
+        <section class="nebula streak-card" aria-label="Streak">
+          <div class="nebula-veil"></div>
+          <div class="streak-badge">
+            <div class="flames" id="flames"></div>
+            <div class="streak-pill" id="streakPill" role="img" aria-label="Day streak: 0"><span class="streak-num" id="streakNum">0</span></div>
+          </div>
+          <div class="day-dots" id="dayDots"></div>
+        </section>
+        <div class="activity-col">
+          <div class="tiles" id="tiles"></div>
+          <div class="mini-stats">
+            <div><span class="mono" id="todayTime">0m</span><small id="todayLabel">today</small></div>
+            <div><span class="mono" id="weekTime">0m</span><small>last 7 days</small></div>
+            <div><span class="mono" id="bestStreak">0</span><small>best streak</small></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="cardboard plan" id="planCard">
+        <div id="hoursForm" class="time-form">
+          <div id="knobHost"></div>
+          <div class="time-side">
+            <div class="emboss label">Study time</div>
+            <div class="mono readout" id="timeReadout">1h</div>
+            <input id="timeInput" class="field mono" inputmode="text" autocomplete="off" placeholder="90m · 1.5h · 1:30" aria-label="Study time" />
+            <button id="generateBtn" class="btn btn-primary"><span id="generateIcon"></span>Plan my session</button>
+          </div>
+        </div>
+        <div id="planResult" class="hidden">
+          <div class="plan-head">
+            <div>
+              <div class="plan-summary" id="planSummary"></div>
+              <div class="faint plan-sub" id="planSub"></div>
+            </div>
+            <button id="regenerateBtn" class="btn btn-ghost"></button>
+          </div>
+          <div id="adjustPrompt" class="adjust hidden">
+            <div class="adjust-q" id="adjustQ"></div>
+            <div class="adjust-btns">
+              <button class="btn btn-primary" data-mode="topup" title="Drop the finished ones and add the next lectures so the plan covers your full time again">Top up</button>
+              <button class="btn" data-mode="remove" title="Drop the finished ones, keep only what is left">Remove finished</button>
+              <button class="btn btn-ghost" data-mode="keep" title="Leave the list as it is">Keep list</button>
+            </div>
+          </div>
+          <div class="bar bar-board"><i id="budgetFill"></i></div>
+          <div class="well"><ul id="taskList" class="task-list scrollbar-thin"></ul></div>
+        </div>
+        <div class="gen-status" id="genStatus"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/util.js"></script>
+  <script src="../shared/sound.js"></script>
+  <script src="../shared/knob.js"></script>
+  <script src="../shared/streak.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

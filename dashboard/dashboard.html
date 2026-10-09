@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <script src="../shared/theme-init.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Udemy Planly</title>
+  <link rel="stylesheet" href="../shared/theme.css" />
+  <link rel="stylesheet" href="../shared/streak.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="planlyRing" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0e7490" /><stop offset="100%" stop-color="#22d3ee" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark"></span><span class="brand-text">Planly</span></div>
+      <div class="side-label emboss">Your courses</div>
+      <ul id="courseList" class="course-list scrollbar-thin"></ul>
+      <div class="sidebar-footer">
+        <div class="side-label emboss">Backup</div>
+        <button id="exportBtn" class="btn side-btn"></button>
+        <button id="importBtn" class="btn side-btn"></button>
+        <p class="faint side-note">Saves or loads an .xlsx file you choose. Your live data stays in the browser either way.</p>
+        <button id="themeBtn" class="btn side-btn"></button>
+        <button id="optionsBtn" class="btn side-btn"></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div id="noCourses" class="empty-state hidden">
+        <div class="empty-icon-lg" id="emptyIcon"></div>
+        <h2>No course tracked yet</h2>
+        <p class="muted">Open a course in the Udemy player (a URL like <code>udemy.com/course/&lt;slug&gt;/learn/…</code>) and leave the tab open for a few seconds. Planly reads the curriculum from the sidebar. Come back here once it's picked up.</p>
+      </div>
+
+      <div id="main" class="hidden">
+        <header class="main-header">
+          <div class="title-block">
+            <h1 id="courseTitle">—</h1>
+            <div class="faint" id="scanText"></div>
+          </div>
+          <div class="header-actions">
+            <button id="syncBtn" class="btn"></button>
+            <a id="courseLink" class="btn btn-ghost" target="_blank" rel="noopener"></a>
+          </div>
+        </header>
+        <div id="scanNote" class="scan-note hidden"></div>
+
+        <div class="top-row">
+          <section class="nebula streak-card" aria-label="Streak">
+            <div class="nebula-veil"></div>
+            <div class="streak-badge">
+              <div class="flames" id="flames"></div>
+              <div class="streak-pill" id="streakPill" role="img" aria-label="Day streak: 0"><span class="streak-num" id="streakNum">0</span></div>
+            </div>
+            <div class="day-dots" id="dayDots"></div>
+            <div class="streak-foot mono" id="streakFoot"></div>
+          </section>
+
+          <section class="activity panel" aria-label="Activity">
+            <div class="title-row"><span class="panel-title">Activity</span><span class="faint" id="activitySub"></span></div>
+            <div class="tiles" id="tiles"></div>
+            <div class="act-stats">
+              <div><div class="mono act-num" id="actTotal">0</div><div class="faint" id="actTotalLabel">studied, last 3 months</div></div>
+              <div><div class="mono act-num" id="actToday">0m</div><div class="faint">today</div></div>
+              <div><div class="mono act-num" id="actDays">0</div><div class="faint">days studied</div></div>
+              <div><div class="mono act-num" id="actBest">0</div><div class="faint">best streak</div></div>
+            </div>
+          </section>
+
+          <section class="cardboard dial-card">
+            <div class="emboss label">Study time</div>
+            <div id="knobHost"></div>
+            <div class="mono readout" id="timeReadout">1h</div>
+            <input id="timeInput" class="field mono" autocomplete="off" placeholder="90m · 1.5h · 1:30" aria-label="Study time" />
+            <button id="generateBtn" class="btn btn-primary"><span id="generateIcon"></span>Plan my session</button>
+          </section>
+        </div>
+
+        <section class="panel progress-panel">
+          <div class="ring-wrap" style="width:74px;height:74px">
+            <svg viewBox="0 0 74 74" width="74" height="74">
+              <circle cx="37" cy="37" r="31" class="ring-bg"></circle>
+              <circle cx="37" cy="37" r="31" class="ring-fg" id="ringFg"></circle>
+            </svg>
+            <div class="ring-center"><span class="mono ring-pct" id="ringLabel">0%</span></div>
+          </div>
+          <div class="stat"><div class="mono stat-num"><span id="statCompleted">0</span><span class="faint">/</span><span id="statTotal" class="faint">0</span></div><div class="faint">lectures done</div></div>
+          <div class="stat"><div class="mono stat-num" id="statMinutesLeft">0m</div><div class="faint">left to watch</div></div>
+          <div class="stat"><div class="mono stat-num" id="statModules">0</div><div class="faint">modules</div></div>
+        </section>
+
+        <section class="panel plan-card">
+          <div class="title-row">
+            <span class="panel-title">Today's plan</span>
+            <span class="pill pill-accent hidden" id="planPill"></span>
+          </div>
+          <div id="planEmpty" class="faint plan-empty">Turn the dial to the time you have, then press “Plan my session”. Planly picks the next lectures that fit completely.</div>
+          <div id="planResult" class="hidden">
+            <div class="plan-summary mono" id="planSummary"></div>
+            <div class="faint plan-sub" id="planSub"></div>
+            <div id="adjustPrompt" class="adjust hidden">
+            <div class="adjust-q" id="adjustQ"></div>
+            <div class="adjust-btns">
+              <button class="btn btn-primary" data-mode="topup" title="Drop the finished ones and add the next lectures so the plan covers your full time again">Top up</button>
+              <button class="btn" data-mode="remove" title="Drop the finished ones, keep only what is left">Remove finished</button>
+              <button class="btn btn-ghost" data-mode="keep" title="Leave the list as it is">Keep list</button>
+            </div>
+          </div>
+          <div class="bar"><i id="budgetFill"></i></div>
+            <ul id="taskList" class="task-list"></ul>
+          </div>
+          <div class="gen-status" id="genStatus"></div>
+        </section>
+
+        <section class="panel curriculum-card">
+          <div class="title-row">
+            <span class="panel-title">Full curriculum</span>
+            <div class="row-gap"><span class="faint" id="curSummary"></span><button id="toggleAllBtn" class="btn btn-ghost small-btn">Expand all</button></div>
+          </div>
+          <div id="curriculumTree" class="curriculum-tree scrollbar-thin"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="../lib/xlsx.full.min.js"></script>
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/util.js"></script>
+  <script src="../shared/sound.js"></script>
+  <script src="../shared/knob.js"></script>
+  <script src="../shared/streak.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

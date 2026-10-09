@@ -1,0 +1,95 @@
+body { width: 520px; }
+.app { padding: 14px 16px 18px; position: relative; z-index: 1; }
+
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.brand { display: flex; align-items: center; gap: 9px; }
+.brand-mark {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #a5f3fc, #0e7490 60%, #083d4f);
+  box-shadow: 0 2px 0 rgba(0, 40, 60, 0.35), 0 0 10px rgba(34, 211, 238, 0.45);
+}
+.brand-text { font: 600 24px/1 var(--serif); }
+.topbar-actions { display: flex; gap: 7px; }
+
+#courseSelect { margin-bottom: 8px; }
+.scan-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13.5px; margin-bottom: 5px; }
+.scan-row .mono { font-size: 13px; font-weight: 700; }
+.bar { height: 7px; border-radius: 999px; background: var(--paper-deep); box-shadow: inset 0 1px 3px rgba(40, 38, 34, 0.35); overflow: hidden; margin-bottom: 12px; }
+.bar > i { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, #0e7490, #22d3ee); box-shadow: 0 0 8px rgba(34, 211, 238, 0.6); transition: width 0.6s cubic-bezier(.4, 0, .2, 1); }
+.scan-note { font-size: 13px; padding: 7px 10px; margin: -4px 0 12px; border-radius: 9px; background: var(--accent-soft); color: #0b5468; }
+.scan-note.warn { background: rgba(180, 90, 20, 0.12); color: #8a410a; }
+
+.top-grid { display: grid; grid-template-columns: 186px 1fr; gap: 12px; margin-bottom: 12px; align-items: stretch; }
+.streak-card { --fw: 96px; --fh: 149px; --badge-h: 148px; --flame-base: 2px; --num-base: 40px; padding: 7px 10px 8px; }
+.streak-card .streak-num { font-size: 33px; }
+.streak-card .day-dots { gap: 4px; margin-top: 8px; }
+.streak-card .day-dot i { width: 21px; height: 21px; }
+.streak-card .day-dot span { font-size: 10px; }
+.activity-col { display: flex; flex-direction: column; justify-content: center; gap: 10px; min-width: 0; }
+.top-grid .tiles { gap: 7px; margin: 0; }
+.mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 8px 6px; border-radius: 10px; border: 1px dashed var(--line); text-align: center; }
+.mini-stats .mono { display: block; font-size: 16px; font-weight: 700; line-height: 1.1; }
+.mini-stats small { font-size: 12px; color: var(--ink-faint); }
+
+/* cardboard time panel */
+.plan { padding: 14px 14px 12px; }
+.time-form { display: flex; align-items: center; gap: 14px; }
+#knobHost { flex: none; width: 128px; height: 128px; margin: 0 6px 0 4px; }
+.time-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+.time-side .label { font-size: 15px; }
+.readout { font-size: 30px; line-height: 1; font-weight: 700; color: var(--ink); text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6); letter-spacing: -0.02em; }
+.time-side .btn { width: 100%; padding: 8px 10px; }
+
+.plan-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.plan-summary { font: 700 15px var(--mono); }
+.plan-sub { font-size: 13px; margin-top: 1px; color: #6f6c62; }
+.plan-head .btn { padding: 6px 10px; font-size: 13.5px; }
+.bar-board { background: rgba(60, 58, 52, 0.16); margin-bottom: 10px; }
+.well { background: #f1efe9; border-radius: 10px; box-shadow: inset 0 2px 5px rgba(50, 48, 44, 0.28), 0 1px 0 rgba(255, 255, 255, 0.6); padding: 2px 10px; }
+.task-list { list-style: none; margin: 0; padding: 0; max-height: 158px; overflow-y: auto; }
+.plan.asking .task-list { max-height: 104px; }
+.task-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 2px; border-bottom: 1px dashed var(--line); }
+.task-item:last-child { border-bottom: none; }
+.task-item.completed .task-title { text-decoration: line-through; color: var(--ink-faint); }
+.task-meta { flex: 1; min-width: 0; }
+.task-title { font-weight: 600; font-size: 15px; line-height: 1.2; }
+.task-sub { color: var(--ink-faint); font-size: 12.5px; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+.task-sub .mono { font-size: 12px; }
+.task-right { flex: none; }
+.gen-status { min-height: 0; font-size: 13px; color: #6f6c62; margin-top: 6px; text-align: center; }
+.gen-status:empty { display: none; }
+.gen-status.err { color: #a03a12; }
+
+.empty-state { padding: 26px 6px 10px; text-align: center; }
+.empty-icon { width: 46px; height: 46px; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; color: var(--ink-faint); background: var(--paper-2); border: 1px solid var(--line); box-shadow: inset 0 2px 4px rgba(40, 38, 34, 0.2); }
+.empty-title { font: 600 20px var(--serif); margin: 0 0 4px; }
+
+/* keep the whole popup under Chrome's 600px cap, even with the "what next?" prompt open */
+.topbar { margin-bottom: 8px; }
+#courseSelect { margin-bottom: 6px; padding: 6px 12px; }
+.bar { margin-bottom: 9px; }
+.top-grid { margin-bottom: 10px; }
+.plan { padding: 12px 14px 10px; }
+.plan .adjust { padding: 6px 10px; margin-bottom: 6px; }
+.plan .adjust-q { font-size: 14px; margin-bottom: 6px; }
+.plan .adjust-btns .btn { padding: 4px 11px; font-size: 13.5px; }
+.plan.asking .task-list { max-height: 92px; }
+.plan-head { margin-bottom: 6px; }
+.bar-board { margin-bottom: 8px; }
+.app { padding-bottom: 12px; }
+.task-list { max-height: 96px; }
+.plan .adjust { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 10px; }
+.plan .adjust-q { margin: 0; }
+.plan .adjust-btns { gap: 6px; }
+.plan.asking .task-list { max-height: 88px; }
+.plan.asking .task-list { max-height: 60px; }
+
+.mini-stats .mono.met { color: var(--accent); }
+html[data-theme="dark"] .well { background: #20201e; box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 255, 255, 0.04); }
+html[data-theme="dark"] .plan-sub, html[data-theme="dark"] .gen-status { color: var(--ink-faint); }
+html[data-theme="dark"] .gen-status.err { color: #f0a084; }
+html[data-theme="dark"] .scan-note { color: #9be3f2; }
+html[data-theme="dark"] .scan-note.warn { color: #f0b27a; background: rgba(240, 178, 122, 0.12); }
+html[data-theme="dark"] .bar { background: #3a3a36; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5); }
+html[data-theme="dark"] .bar-board { background: rgba(0, 0, 0, 0.35); }
+html[data-theme="dark"] .empty-icon { background: var(--paper-2); }
